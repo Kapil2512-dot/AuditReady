@@ -8,11 +8,12 @@ const Main = () => {
     { label: "View Controls", icon: <FiFolderPlus /> },
     { label: "View Policies", icon: <FiFolderPlus /> },
   ];
+
   return (
     <div className="flex-1 h-screen mt-0 p-4 bg-gray-100">
-      <div className="mt-30 ml-15">
-        <h1 className="text-5xl font-bold">Welcome</h1>
-        <p className="mt-6 font-semibold">
+      <div className="mt-25 ml-4 md:ml-8">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold">Welcome</h1>
+        <p className="mt-4 sm:mt-6 font-semibold text-sm sm:text-base">
           AuditReady is a governance risk and compliance platform.{" "}
           <a
             href="https://github.com/Kapil2512-dot/AuditReady"
@@ -23,12 +24,12 @@ const Main = () => {
           </a>{" "}
           for more information and/or questions.
         </p>
-        <div className="flex space-x-4">
+        <div className="flex flex-wrap gap-4 mt-6">
           {/* Container for buttons */}
           {buttonsData.map((button, index) => (
             <button
               key={index}
-              className="bg-white border mt-15 border-gray-300 rounded-md px-4 py-2 inline-flex items-center shadow-sm cursor-pointer hover:bg-blue-200 focus:outline-none w-auto max-w-max"
+              className="bg-white border border-gray-300 rounded-md px-4 py-2 inline-flex items-center shadow-sm cursor-pointer hover:bg-blue-200 focus:outline-none w-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg"
             >
               <span className="mr-2">{button.icon}</span> {/* Icon */}
               <span>{button.label}</span> {/* Label */}
