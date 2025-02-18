@@ -10,7 +10,7 @@ const Home = () => {
         <Sidebar />
 
         {/* Main Container for Navbar */}
-        <div className="flex flex-col mt-0 flex-1">
+        <div className="flex flex-col  flex-1">
           <Navbar />
         </div>
       </div>
