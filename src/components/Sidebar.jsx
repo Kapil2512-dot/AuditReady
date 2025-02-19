@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import {
   FaHome,
   FaUser,
@@ -55,16 +56,23 @@ const Sidebar = () => {
       <nav className="flex-1 p-4">
         <ul className="space-y-2 cursor-pointer">
           <li className="flex items-center space-x-3 p-2 cursor-pointer hover:transparent rounded">
-            <FaHome />
-            {isExpanded && <span>Home</span>}
+            <Link to="/" className="flex items-center space-x-3">
+              <FaHome />
+              {isExpanded && <span>Home</span>}
+            </Link>
           </li>
           <li className="flex items-center space-x-3 p-2 cursor-pointer hover:transparent rounded">
-            <FaUser />
-            {isExpanded && <span>Tenants</span>}
+            <Link to="/tenants" className="flex items-center space-x-3">
+              <FaUser />
+              {isExpanded && <span>Tenants</span>}
+            </Link>
           </li>
+
           <li className="flex items-center space-x-3 p-2 cursor-pointer hover:transparent rounded">
-            <FaProjectDiagram />
-            {isExpanded && <span>Projects</span>}
+            <Link to="/projects" className="flex items-center space-x-3">
+              <FaProjectDiagram />
+              {isExpanded && <span>Projects</span>}
+            </Link>
           </li>
           <li className="flex items-center space-x-3 p-2 cursor-pointer hover:transparent rounded">
             <FaBook />

@@ -31,7 +31,7 @@ const Main = () => {
   ];
 
   return (
-    <div className="flex-1 h-screen p-4 ml-15 bg-gray-100">
+    <div className="flex-1 h-screen p-4 ml-15 ">
       <div className="mt-20 ml-4 md:ml-8">
         <h1 className="text-4xl sm:text-3xl lg:text-4xl font-bold">Welcome</h1>
         <p className="mt-4 sm:mt-6 font-semibold text-xs sm:text-sm md:text-base">
