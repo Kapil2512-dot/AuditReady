@@ -11,7 +11,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed w-full top-0 p-4 flex items-center justify-between shadow-lg z-10 bg-white">
+    <nav className="fixed w-full ml-15 top-0 p-4 flex items-center justify-between shadow-lg z-10 bg-white">
       {/* Left: Logo */}
       <div className="text-2xl font-bold bg-gradient-to-r from-sky-500 via-[#4361EE] to-purple-800 text-transparent bg-clip-text">
         AuditReady

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
 import {
   FaHome,
   FaUser,
@@ -13,85 +12,69 @@ import {
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const sidebarRef = useRef(null); // Reference to the sidebar
+
+  // Check screen width and set isMobile based on it
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Adjust based on your mobile breakpoint
+    };
+
+    handleResize(); // Check on initial load
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // Function to handle toggle on mobile
+  const toggleSidebar = () => {
+    if (isMobile) {
+      setIsExpanded((prev) => !prev);
+    }
+  };
 
   return (
     <div
-      className={`h-screen ${
+      ref={sidebarRef}
+      className={`fixed inset-0 h-screen z-50 ${
         isExpanded ? "w-64" : "w-18"
       } bg-gradient-to-r from-sky-500 via-[#4361EE] to-purple-800 text-white flex flex-col transition-all duration-300`}
-      onMouseEnter={() => setIsExpanded(true)}
-      onMouseLeave={() => setIsExpanded(false)}
+      onMouseEnter={() => !isMobile && setIsExpanded(true)} // Expand on hover for desktop
+      onMouseLeave={() => !isMobile && setIsExpanded(false)} // Collapse on hover for desktop
+      onClick={toggleSidebar} // Toggle on click for mobile only
     >
       {/* Logo */}
-      <div className="p-5 text-3xl font-bold   cursor-pointer  text-center">
-        {isExpanded ? "A" : "A"}
+      <div className="p-5 text-3xl font-bold cursor-pointer text-center">
+        {isExpanded ? "AuditReady" : "A"}
       </div>
 
       {/* Menu Items */}
       <nav className="flex-1 p-4">
-        <ul className="space-y-2  cursor-pointer">
-          <li>
-            <select
-              name=""
-              id=""
-              className={`${
-                isExpanded ? "border border-gray-300  rounded" : "border-none"
-              } bg-transparent text-white  cursor-pointer p-2 text-lg w-full focus:outline-none focus:ring-0 hover:bg-transparent`}
-            >
-              <option
-                value=""
-                className={`${
-                  !isExpanded ? "bg-transparent text-white" : "text-black"
-                }`}
-              ></option>
-              <option
-                value=""
-                className={`${
-                  !isExpanded ? "bg-transparent text-white" : "text-black"
-                }`}
-              ></option>
-              <option
-                value=""
-                className={`${
-                  !isExpanded ? "bg-transparent text-white" : "text-black"
-                }`}
-              ></option>
-              <option
-                value=""
-                className={`${
-                  !isExpanded ? "bg-transparent text-white" : "text-black"
-                }`}
-              ></option>
-              <option
-                value=""
-                className={`${
-                  !isExpanded ? "bg-transparent text-white" : "text-black"
-                }`}
-              ></option>
-            </select>
-          </li>
-
-          <li className="flex items-center space-x-3 p-2  cursor-pointer hover:transparent rounded">
+        <ul className="space-y-2 cursor-pointer">
+          <li className="flex items-center space-x-3 p-2 cursor-pointer hover:transparent rounded">
             <FaHome />
             {isExpanded && <span>Home</span>}
           </li>
-          <li className="flex items-center space-x-3 p-2   cursor-pointer hover:transparent rounded">
+          <li className="flex items-center space-x-3 p-2 cursor-pointer hover:transparent rounded">
             <FaUser />
             {isExpanded && <span>Tenants</span>}
           </li>
-          <li className="flex items-center space-x-3 p-2  cursor-pointer hover:transparent rounded">
+          <li className="flex items-center space-x-3 p-2 cursor-pointer hover:transparent rounded">
             <FaProjectDiagram />
             {isExpanded && <span>Projects</span>}
           </li>
-          <li className="flex items-center space-x-3 p-2  cursor-pointer hover:transparent rounded">
+          <li className="flex items-center space-x-3 p-2 cursor-pointer hover:transparent rounded">
             <FaBook />
             {isExpanded && <span>Policies</span>}
           </li>
-          <li className="flex items-center space-x-3 p-2  cursor-pointer hover:transparent rounded">
+          <li className="flex items-center space-x-3 p-2 cursor-pointer hover:transparent rounded">
             <FaClipboardList />
             {isExpanded && <span>Evidence</span>}
           </li>
-          <li className="flex items-center space-x-3 p-2   cursor-pointer hover:transparent rounded">
+          <li className="flex items-center space-x-3 p-2 cursor-pointer hover:transparent rounded">
             <FaCogs />
             {isExpanded && (
               <div className="w-full ml-0">
@@ -100,12 +83,12 @@ const Sidebar = () => {
                   id=""
                   className={`${
                     isExpanded
-                      ? "border-none  mt-0 border-gray-300 rounded"
+                      ? "border-none mt-0 border-gray-300 rounded"
                       : "border-none"
-                  } bg-transparent text-white  cursor-pointer p-2   w-full focus:outline-none focus:ring-0 hover:bg-transparent`}
+                  } bg-transparent text-white cursor-pointer p-2 w-full focus:outline-none focus:ring-0 hover:bg-transparent`}
                 >
                   <option
-                    value=" Risk(Beta)"
+                    value="Risk (Beta)"
                     className={`${
                       !isExpanded
                         ? "bg-transparent ml-0 text-white"
@@ -142,7 +125,7 @@ const Sidebar = () => {
               </div>
             )}
           </li>
-          <li className="flex items-center space-x-3 p-2   cursor-pointer hover:transparent rounded">
+          <li className="flex items-center space-x-3 p-2 cursor-pointer hover:transparent rounded">
             <FaMapSigns />
             {isExpanded && (
               <div className="w-full mt-0">
@@ -151,9 +134,9 @@ const Sidebar = () => {
                   id=""
                   className={`${
                     isExpanded
-                      ? "border-none  border-gray-300 rounded"
+                      ? "border-none border-gray-300 rounded"
                       : "border-none"
-                  } bg-transparent text-white  cursor-pointer p-2   w-full focus:outline-none focus:ring-0 hover:bg-transparent`}
+                  } bg-transparent text-white cursor-pointer p-2 w-full focus:outline-none focus:ring-0 hover:bg-transparent`}
                 >
                   <option
                     value="More"
@@ -165,7 +148,6 @@ const Sidebar = () => {
                   >
                     More
                   </option>
-
                   <option
                     value="Tenant Users"
                     className={`${
