@@ -1,5 +1,4 @@
 import React from "react";
-import { FiFolderPlus } from "react-icons/fi";
 import {
   FaBuilding,
   FaProjectDiagram,
@@ -9,15 +8,16 @@ import {
   FaListAlt,
   FaCogs,
   FaPlus,
+  FaFolderPlus,
 } from "react-icons/fa";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const Main = () => {
   const buttonsData = [
-    { label: "Create Client", icon: <FiFolderPlus />, path: "/clients" },
-    { label: "View Program", icon: <FaProjectDiagram />, path: "/program" },
-    { label: "View Controls", icon: <FaCog />, path: "/clients" },
-    { label: "View Policies", icon: <FaBook />, path: "/policies" },
+    { label: "Create Client", icon: <FaFolderPlus />, path: "/clients" },
+    { label: "View Program", icon: <FaFolderPlus />, path: "/program" },
+    { label: "View Controls", icon: <FaFolderPlus />, path: "/clients" },
+    { label: "View Policies", icon: <FaFolderPlus />, path: "/policies" },
   ];
   const Navigate = useNavigate();
 
