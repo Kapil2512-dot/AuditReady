@@ -10,6 +10,8 @@ import Evidence from "./page/Evidence";
 import Program from "./page/Program";
 import "./App.css";
 import Control from "./page/Control";
+import Login from "./page/Login";
+import SignUp from "./page/Signup";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -32,6 +34,8 @@ function App() {
               <Route path="/policies" element={<Policies />} />
               <Route path="/Evidence" element={<Evidence />} />
               <Route path="/controls" element={<Control />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
             </Routes>
           </div>
         </div>

@@ -88,6 +88,12 @@ const Sidebar = () => {
             </Link>
           </li>
           <li className="flex items-center space-x-3 p-2 cursor-pointer hover:transparent rounded">
+            <Link to="/login" className="flex items-center space-x-3">
+              <FaClipboardList />
+              {isExpanded && <span>Login</span>}
+            </Link>
+          </li>
+          <li className="flex items-center space-x-3 p-2 cursor-pointer hover:transparent rounded">
             <FaCogs />
             {isExpanded && (
               <div className="w-full ml-0">
