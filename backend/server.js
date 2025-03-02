@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const app = express();
 const dotenv = require("dotenv");
 const clientRoute = require('./routes/clientRoute')
+const userRoute = require('./routes/userRoute')
 dotenv.config();
 const cors = require("cors");
 app.use(cors());
@@ -23,3 +24,4 @@ mongoose
 
 // ✅ Fix the route base path
 app.use("/api/clients", clientRoute);
+app.use("/api/login", userRoute);

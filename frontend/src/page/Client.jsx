@@ -60,30 +60,21 @@ const Client = () => {
   }, []);
 
   return (
-    <div className="flex-1 ml-15 h-screen p-4">
-      <div className="mt-20 mx-auto max-w-6xl px-4">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
+    <div className="flex-1 min-h-screen p-6 bg-white  pl-20 md:pl-64 pt-20 md:pt-24 transition-all duration-300">
+      <div className=" mx-auto max-w-6xl px-4">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
           Clients
         </h1>
 
-        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-            <h2 className="text-lg sm:text-xl font-bold">Clients</h2>
-            <div className="flex space-x-2 mt-3 sm:mt-0">
-              <button className="p-2 bg-gray-100 rounded-md hover:bg-gray-200">
-                <FaDownload />
-              </button>
-              <button
-                className="p-2 bg-gray-100 rounded-md hover:bg-gray-200"
-                onClick={getData}
-              >
-                <FaSyncAlt />
-              </button>
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg sm:text-xl font-bold">Client List</h2>
+            <div className="flex space-x-2">
               <button
                 className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-md"
                 onClick={() => setShowModal(true)}
               >
-                New
+                New Client
               </button>
             </div>
           </div>
@@ -91,59 +82,33 @@ const Client = () => {
           {/* Error Message */}
           {error && <p className="text-red-500">{error}</p>}
 
-          {/* Table */}
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase">
-                    Name
-                  </th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase">
-                    Contact
-                  </th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase">
-                    Created At
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.length > 0 ? (
-                  data.map((client) => (
-                    <tr
-                      key={client._id}
-                      className="border-b hover:bg-gray-50 transition"
-                    >
-                      <td className="px-4 py-3 text-sm md:text-base">
-                        {client.name}
-                      </td>
-                      <td className="px-4 py-3 text-sm md:text-base">
-                        {client.email}
-                      </td>
-                      <td className="px-4 py-3 text-sm md:text-base">
-                        {new Date(client.createdAt).toLocaleDateString()}
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td
-                      colSpan="3"
-                      className="px-4 py-3 text-center text-gray-500"
-                    >
-                      No clients found.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+          {/* Client Cards Layout */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {data.length > 0 ? (
+              data.map((client) => (
+                <div
+                  key={client._id}
+                  className="bg-white rounded-lg shadow-md p-4 border border-gray-200"
+                >
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    {client.name}
+                  </h3>
+                  <p className="text-sm text-gray-600">{client.email}</p>
+                  <p className="text-xs text-gray-400 mt-2">
+                    Created: {new Date(client.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-500">No clients found.</p>
+            )}
           </div>
         </div>
       </div>
 
-      {/* MODAL */}
+      {/* MODAL with Blurry Background */}
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center  bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-md">
           <div className="bg-white rounded-lg p-6 shadow-lg w-96">
             <h2 className="text-xl font-bold mb-4">Add New Client</h2>
 

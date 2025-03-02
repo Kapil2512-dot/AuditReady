@@ -10,16 +10,17 @@ import {
   FaPlus,
   FaFolderPlus,
 } from "react-icons/fa";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Main = () => {
+  const navigate = useNavigate();
+
   const buttonsData = [
     { label: "Create Client", icon: <FaFolderPlus />, path: "/clients" },
     { label: "View Program", icon: <FaFolderPlus />, path: "/program" },
     { label: "View Controls", icon: <FaFolderPlus />, path: "/clients" },
     { label: "View Policies", icon: <FaFolderPlus />, path: "/policies" },
   ];
-  const Navigate = useNavigate();
 
   const quickAccessItems = [
     { label: "Client", icon: <FaBuilding /> },
@@ -33,54 +34,57 @@ const Main = () => {
   ];
 
   return (
-    <div className="flex-1 h-screen p-4 ml-15 ">
-      <div className="mt-20 ml-4 md:ml-8">
-        <h1 className="text-4xl sm:text-3xl lg:text-4xl font-bold">Welcome</h1>
-        <p className="mt-4 sm:mt-6 font-semibold text-xs sm:text-sm md:text-base">
-          AuditReady is a governance risk and compliance platform.{" "}
-          <a
-            href="https://github.com/Kapil2512-dot/AuditReady"
-            className="text-blue-500 underline hover:text-blue-700"
-            rel="noopener noreferrer"
-          >
-            Please check here
-          </a>{" "}
-          for more information and/or questions.
-        </p>
-
-        {/* Responsive Buttons */}
-        <div className="flex flex-wrap  justify-center gap-3 mt-6">
-          {buttonsData.map((button, index) => (
-            <button
-              key={index}
-              onClick={() => Navigate(button.path)}
-              className="bg-white border border-gray-300 rounded-md px-3 sm:px-4 md:px-6 py-2 inline-flex items-center shadow-sm cursor-pointer 
-                        hover:bg-blue-200 focus:outline-none text-xs sm:text-sm md:text-base transition-all duration-300"
-              aria-label={button.label} // Added aria-label for accessibility
+    <div className="flex">
+      {/* Main Content */}
+      <div className="flex-1 min-h-screen p-6 bg-white  pl-20 md:pl-64 pt-20 md:pt-24 transition-all duration-300">
+        <div className="mx-auto max-w-6xl">
+          <h1 className="text-4xl font-extrabold text-gray-900">Welcome</h1>
+          <p className="mt-4 text-gray-700 text-lg">
+            AuditReady is a governance risk and compliance platform.{" "}
+            <a
+              href="https://github.com/Kapil2512-dot/AuditReady"
+              className="text-blue-700 underline hover:text-blue-900"
+              rel="noopener noreferrer"
             >
-              <span className="mr-2 text-base sm:text-lg">{button.icon}</span>
-              <span>{button.label}</span>
-            </button>
-          ))}
+              Please check here
+            </a>{" "}
+            for more information and/or questions.
+          </p>
+
+          {/* Button Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+            {buttonsData.map((button, index) => (
+              <button
+                key={index}
+                onClick={() => navigate(button.path)}
+                className="bg-white shadow-md rounded-lg px-6 py-4 flex items-center justify-center gap-2 text-gray-800 text-lg font-semibold hover:bg-blue-500 hover:text-white transition-all duration-300"
+                aria-label={button.label}
+              >
+                {button.icon}
+                {button.label}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="mt-8 ml-4 md:ml-8">
-        <div className="text-2xl font-bold mb-4">Quick Access</div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {quickAccessItems.map((item, index) => (
-            <div
-              key={index}
-              className="bg-white cursor-pointer rounded-md shadow p-5 flex items-center justify-left hover:bg-gray-50 transition duration-300 max-w-sm w-full h-24"
-            >
-              <div className="mr-3 text-3xl">{item.icon}</div>{" "}
-              {/* Increased icon size */}
-              <div>
-                <div className="font-semibold">{item.label}</div>{" "}
-                {/* Increased font size */}
+        {/* Quick Access Section */}
+        <div className="mt-12 mx-auto max-w-6xl">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            Quick Access
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+            {quickAccessItems.map((item, index) => (
+              <div
+                key={index}
+                className="bg-white shadow-lg rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition transform duration-300"
+              >
+                <div className="text-4xl text-blue-500 mb-3">{item.icon}</div>
+                <div className="text-lg font-medium text-gray-800">
+                  {item.label}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
