@@ -12,19 +12,24 @@ import "./App.css";
 import Control from "./page/Control";
 import Login from "./page/Login";
 import SignUp from "./page/Signup";
+import Frameworks from "./page/Frameworks";
+import Detail from "./page/Detail";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
     <Router>
       <div className="flex h-screen">
         {/* Sidebar */}
-        <Sidebar />
+        <Sidebar
+          isSidebarOpen={isSidebarOpen}
+          setIsSidebarOpen={setIsSidebarOpen}
+        />
 
         {/* Main Content */}
         <div className="flex flex-col flex-1">
-          <Navbar />
+          <Navbar toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
           <div className="flex-1 p-4">
             {/* This is where the routed components will appear */}
             <Routes>
@@ -32,10 +37,12 @@ function App() {
               <Route path="/clients" element={<Client />} />
               <Route path="/program" element={<Program />} />
               <Route path="/policies" element={<Policies />} />
-              <Route path="/Evidence" element={<Evidence />} />
+              <Route path="/evidence" element={<Evidence />} />
               <Route path="/controls" element={<Control />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<SignUp />} />
+              <Route path="/frameworks" element={<Frameworks />} />
+              <Route path="/frameworks/:id" element={<Detail />} />
             </Routes>
           </div>
         </div>

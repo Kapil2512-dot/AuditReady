@@ -9,26 +9,52 @@ import {
   FaClipboardList,
 } from "react-icons/fa";
 
-const Sidebar = () => {
-  const [isMobile, setIsMobile] = useState(false);
+const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const sidebarRef = useRef(null);
   const location = useLocation();
 
   useEffect(() => {
+    // Update mobile state on window resize
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-    handleResize();
+
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
+  useEffect(() => {
+    // Close sidebar when clicking outside
+    const handleClickOutside = (event) => {
+      if (
+        isSidebarOpen &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target)
+      ) {
+        setIsSidebarOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSidebarOpen]);
+
   return (
     <div
       ref={sidebarRef}
-      className="fixed inset-0 h-screen z-50 shadow-lg bg-opacity-90 backdrop-blur-lg w-64 bg-black text-white flex flex-col transition-all duration-300  p-2"
+      className={`fixed inset-y-0 h-screen z-50 shadow-lg bg-opacity-90 backdrop-blur-lg w-64 bg-black text-white flex flex-col transition-transform duration-300 p-2
+      ${
+        isMobile
+          ? isSidebarOpen
+            ? "translate-x-0"
+            : "-translate-x-64"
+          : "translate-x-0"
+      }`}
     >
       <div
         onClick={() => (window.location.href = "/")}
@@ -43,7 +69,8 @@ const Sidebar = () => {
             { path: "/", label: "Home", icon: <FaHome /> },
             { path: "/clients", label: "Client", icon: <FaUser /> },
             { path: "/program", label: "Program", icon: <FaProjectDiagram /> },
-            { path: "/policies", label: "Policies", icon: <FaBook /> },
+
+            { path: "/frameworks", label: "Frameworks", icon: <FaBook /> },
             { path: "/evidence", label: "Evidence", icon: <FaClipboardList /> },
             { path: "/login", label: "Login", icon: <FaClipboardList /> },
           ].map((item) => (

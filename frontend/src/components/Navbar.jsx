@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Menu } from "lucide-react";
 import {
   FaSun,
   FaMoon,
@@ -9,7 +10,7 @@ import {
   FaBell,
 } from "react-icons/fa";
 
-const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
+const Navbar = ({ toggleSidebar }) => {
   const [theme, setTheme] = useState("Dark");
   const [open, setOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -24,10 +25,10 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
     <nav className="fixed w-full top-0 border-b-1 p-4 flex items-center justify-between bg-white ">
       {/* Left: Sidebar Toggle Button */}
       <button
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="md:hidden text-2xl text-gray-700"
+        className="md:hidden p-2 bg-blue-500 rounded cursor-pointer"
+        onClick={toggleSidebar}
       >
-        {sidebarOpen ? <FaTimes /> : <FaBars />}
+        <Menu />
       </button>
 
       {/* Center: Logo/Tagline */}
@@ -54,17 +55,6 @@ const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
 
         {/* Theme Toggle */}
         <div className="relative cursor-pointer">
-          <button
-            onClick={() => setOpen(!open)}
-            className="flex items-center px-2 py-1 border rounded bg-gray-100 shadow-md"
-          >
-            {theme === "Dark" ? (
-              <FaMoon className="mr-2" />
-            ) : (
-              <FaSun className="mr-2" />
-            )}
-            {theme}
-          </button>
           {open && (
             <ul className="absolute right-0 mt-2 bg-white shadow-lg rounded border w-28">
               {themes.map((t) => (
