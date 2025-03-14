@@ -1,9 +1,11 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Client = require('../models/clientModel');
-const mongoose = require('mongoose');
+const Client = require("../models/clientModel");
+const Program = require("../models/programModel"); // Import Program model
+const mongoose = require("mongoose");
 
-router.post('/', async (req, res) => {
+// Create a new client
+router.post("/", async (req, res) => {
   const { name, email } = req.body;
 
   // Input validation
@@ -19,6 +21,7 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Get all clients
 router.get("/", async (req, res) => {
   try {
     const allClients = await Client.find();
@@ -29,6 +32,42 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Get a single client by ID
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const singleClient = await Client.findById(id);
+    if (!singleClient) {
+      return res.status(404).json({ error: "Client not found" });
+    }
+    res.status(200).json(singleClient);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Update a client
+router.patch("/:id", async (req, res) => {
+  const { id } = req.params;
+  const { name, email } = req.body;
+
+  try {
+    const updateClient = await Client.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    if (!updateClient) {
+      return res.status(404).json({ error: "Client not found" });
+    }
+    res.status(200).json({ message: "Client updated successfully", updateClient });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Delete a client and its associated programs
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -38,43 +77,17 @@ router.delete("/:id", async (req, res) => {
   }
 
   try {
+    // Delete all programs associated with the client
+    await Program.deleteMany({ client: id });
+
+    // Delete the client
     const deleteClient = await Client.findByIdAndDelete(id);
 
     if (!deleteClient) {
       return res.status(404).json({ error: "Client not found" });
     }
 
-    res.status(200).json({ message: "Client deleted successfully", deleteClient });
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ error: error.message });
-  }
-});
-router.patch("/:id", async (req, res) => {
-  const { id } = req.params;
-  const {name , email} = req.body;
-  try {
-    const updateClient = await Client.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
-    if (!updateClient) {
-      return res.status(404).json({ error: "User not found" });
-    }
-    res.status(200).json({ message: "client updated successfully", updateClient });
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ error: error.message });
-  }
-});
-router.get("/:id", async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const singleClient = await Client.findById(id);
-    if (!singleClient) {
-      return res.status(404).json({ error: "User not found" });
-    }
-    res.status(200).json(singleClient);
+    res.status(200).json({ message: "Client and associated programs deleted successfully", deleteClient });
   } catch (error) {
     console.log(error);
     res.status(400).json({ error: error.message });

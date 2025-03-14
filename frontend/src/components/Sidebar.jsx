@@ -11,8 +11,29 @@ import {
 
 const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [clients, setClients] = useState([]);
+  const [selectedClient, setSelectedClient] = useState(null);
   const sidebarRef = useRef(null);
   const location = useLocation();
+
+  useEffect(() => {
+    // Fetch clients from backend
+    const fetchClients = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/api/clients");
+        const data = await response.json();
+        setClients(data);
+        if (data.length > 0) {
+          setSelectedClient(data[0]); // Set the first client as default
+        } else {
+          setSelectedClient(null); // No clients available
+        }
+      } catch (error) {
+        console.error("Error fetching clients:", error);
+      }
+    };
+    fetchClients();
+  }, []);
 
   useEffect(() => {
     // Update mobile state on window resize
@@ -63,13 +84,43 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         AuditReady
       </div>
 
+      {/* Client Dropdown */}
+      <div className="p-2">
+        <label className="block text-sm font-medium text-gray-300">
+          Select Client:
+        </label>
+        <select
+          className="w-full mt-1 p-2 bg-gray-800 text-white rounded-lg focus:outline-none"
+          value={selectedClient?._id || ""}
+          onChange={(e) => {
+            const client = clients.find((c) => c._id === e.target.value);
+            setSelectedClient(client || null);
+          }}
+          disabled={clients.length === 0} // Disable dropdown when no clients
+        >
+          <option value="" disabled>
+            {clients.length === 0 ? "" : "Select a client"}
+          </option>
+          {clients.map((client) => (
+            <option key={client._id} value={client._id}>
+              {client.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <nav className="flex-1 p-2">
         <ul className="space-y-2 cursor-pointer">
           {[
             { path: "/", label: "Home", icon: <FaHome /> },
             { path: "/clients", label: "Client", icon: <FaUser /> },
-            { path: "/program", label: "Program", icon: <FaProjectDiagram /> },
-
+            {
+              path: selectedClient
+                ? `/program/${selectedClient._id}`
+                : "/program",
+              label: selectedClient ? "Programs" : "Programs",
+              icon: <FaProjectDiagram />,
+            },
             { path: "/frameworks", label: "Frameworks", icon: <FaBook /> },
             { path: "/evidence", label: "Evidence", icon: <FaClipboardList /> },
             { path: "/login", label: "Login", icon: <FaClipboardList /> },

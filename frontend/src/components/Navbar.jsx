@@ -43,16 +43,6 @@ const Navbar = ({ toggleSidebar }) => {
 
       {/* Right: Search, Theme, Notifications, Profile */}
       <div className="flex items-center gap-4">
-        {/* Search Bar */}
-        <div className="relative hidden md:block">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="px-3 py-1 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-500"
-          />
-          <FaSearch className="absolute top-2 right-2 text-gray-500" />
-        </div>
-
         {/* Theme Toggle */}
         <div className="relative cursor-pointer">
           {open && (
@@ -74,19 +64,6 @@ const Navbar = ({ toggleSidebar }) => {
         </div>
 
         {/* Notifications */}
-        <div className="relative cursor-pointer">
-          <FaBell
-            className="text-2xl text-gray-700"
-            onClick={() => setNotificationsOpen(!notificationsOpen)}
-          />
-          {notificationsOpen && (
-            <ul className="absolute right-0 mt-2 bg-white shadow-lg rounded border w-48">
-              <li className="p-2 hover:bg-gray-200 cursor-pointer">
-                No new notifications
-              </li>
-            </ul>
-          )}
-        </div>
 
         {/* Profile Dropdown */}
         <div className="relative cursor-pointer">
