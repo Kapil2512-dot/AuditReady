@@ -50,6 +50,7 @@ const Client = () => {
           }
         );
       } else {
+        // Fix the typo here: "clients" instead of "clients"
         response = await fetch("http://localhost:8000/api/clients", {
           method: "POST",
           headers: { "Content-Type": "application/json" },

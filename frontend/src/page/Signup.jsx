@@ -1,99 +1,124 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { registerUser } from "./api"; // Import the API utility
 
 const SignUp = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [retypePassword, setRetypePassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle sign-up logic here (e.g., API call)
-    console.log("Email:", email);
-    console.log("Username:", username);
-    console.log("Password:", password);
-    console.log("Retype Password:", retypePassword);
 
-    // Add validation: Check if passwords match, etc.
+    // Validate passwords match
     if (password !== retypePassword) {
-      alert("Passwords do not match!");
-      return; // Stop form submission
+      setError("Passwords do not match!");
+      return;
+    }
+
+    try {
+      // Call the register API
+      await registerUser(name, email, password);
+      // Redirect to login page after successful registration
+      navigate("/login");
+    } catch (error) {
+      setError(error);
     }
   };
 
   return (
-    <div className="bg-gradient-to-r from-sky-500 via-[#4361EE] to-purple-800 h-screen w-screen flex items-center justify-center">
-      <div className="bg-white rounded-lg p-8 w-96">
-        <h2 className=" bg-gradient-to-r from-sky-500 via-[#4361EE] to-purple-800 text-transparent bg-clip-text text-2xl font-bold  mb-4 text-center">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600">
+      <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-2xl p-8 w-96 shadow-2xl border border-white border-opacity-20">
+        <h2 className="text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 mb-6">
           AuditReady
         </h2>
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+          <div className="mb-6">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              className="w-full px-4 py-3 rounded-lg bg-white bg-opacity-50 backdrop-blur-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-600"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-6">
             <label
               htmlFor="email"
-              className="block text-gray-400 text-sm font-bold mb-2"
+              className="block text-sm font-medium text-gray-700 mb-2"
             >
               Email
             </label>
             <input
               type="email"
               id="email"
-              className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-white"
-              placeholder="Email"
+              className="w-full px-4 py-3 rounded-lg bg-white bg-opacity-50 backdrop-blur-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-600"
+              placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
-          <div className="mb-4">
-            <label
-              htmlFor="username"
-              className="block text-gray-400 text-sm font-bold mb-2"
-            >
-              Username
-            </label>
-            <input
-              type="text"
-              id="username"
-              className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-white"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-4">
+          <div className="mb-6">
             <label
               htmlFor="password"
-              className="block text-gray-400 text-sm font-bold mb-2"
+              className="block text-sm font-medium text-gray-700 mb-2"
             >
               Password
             </label>
             <input
               type="password"
               id="password"
-              className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-white"
-              placeholder="Password"
+              className="w-full px-4 py-3 rounded-lg bg-white bg-opacity-50 backdrop-blur-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-600"
+              placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
-
-          <div className="flex items-center justify-between">
-            <button
-              type="submit"
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+          <div className="mb-8">
+            <label
+              htmlFor="retypePassword"
+              className="block text-sm font-medium text-gray-700 mb-2"
             >
-              SIGN UP
-            </button>
+              Retype Password
+            </label>
+            <input
+              type="password"
+              id="retypePassword"
+              className="w-full px-4 py-3 rounded-lg bg-white bg-opacity-50 backdrop-blur-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-600"
+              placeholder="Retype your password"
+              value={retypePassword}
+              onChange={(e) => setRetypePassword(e.target.value)}
+              required
+            />
           </div>
-          <div className="mt-4 text-center">
-            <p className="text-gray-400 text-sm">
+          <button
+            type="submit"
+            className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg"
+          >
+            SIGN UP
+          </button>
+          <div className="mt-6 text-center text-gray-700">
+            <p>
               Already have an account?{" "}
-              <Link to="/login" className="text-green-500 hover:text-green-700">
-                Login
+              <Link
+                to="/login"
+                className="text-blue-600 hover:text-blue-800 font-semibold"
+              >
+                Login here
               </Link>
             </p>
           </div>

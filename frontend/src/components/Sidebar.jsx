@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FaHome,
   FaUser,
@@ -15,6 +15,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const [selectedClient, setSelectedClient] = useState(null);
   const sidebarRef = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch clients from backend
@@ -65,6 +66,24 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
     };
   }, [isSidebarOpen]);
 
+  // Handle client selection change
+  const handleClientChange = (e) => {
+    const clientId = e.target.value;
+    const client = clients.find((c) => c._id === clientId);
+    setSelectedClient(client || null);
+
+    // Navigate to the selected client's programs
+    if (clientId) {
+      navigate(`/program/${clientId}`);
+    }
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    localStorage.removeItem("user"); // Clear user data
+    navigate("/login"); // Redirect to login page
+  };
+
   return (
     <div
       ref={sidebarRef}
@@ -78,7 +97,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
       }`}
     >
       <div
-        onClick={() => (window.location.href = "/")}
+        onClick={() => navigate("/")}
         className="p-4 text-3xl mb-5 font-bold cursor-pointer text-center bg-gradient-to-r from-sky-500 via-[#4361EE] to-purple-800 text-transparent bg-clip-text"
       >
         AuditReady
@@ -92,11 +111,8 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         <select
           className="w-full mt-1 p-2 bg-gray-800 text-white rounded-lg focus:outline-none"
           value={selectedClient?._id || ""}
-          onChange={(e) => {
-            const client = clients.find((c) => c._id === e.target.value);
-            setSelectedClient(client || null);
-          }}
-          disabled={clients.length === 0} // Disable dropdown when no clients
+          onChange={handleClientChange}
+          disabled={clients.length === 0}
         >
           <option value="" disabled>
             {clients.length === 0 ? "" : "Select a client"}
@@ -123,7 +139,6 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
             },
             { path: "/frameworks", label: "Frameworks", icon: <FaBook /> },
             { path: "/evidence", label: "Evidence", icon: <FaClipboardList /> },
-            { path: "/login", label: "Login", icon: <FaClipboardList /> },
           ].map((item) => (
             <li
               key={item.path}
@@ -145,8 +160,12 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         </ul>
       </nav>
 
+      {/* Logout Button */}
       <div className="p-4 border-t border-gray-700">
-        <button className="flex items-center space-x-2 w-full p-2 hover:bg-red-700 rounded-lg transition-all duration-300">
+        <button
+          onClick={handleLogout}
+          className="flex items-center space-x-2 w-full p-2 hover:bg-red-700 rounded-lg transition-all duration-300"
+        >
           <FaSignOutAlt />
           <span>Logout</span>
         </button>
