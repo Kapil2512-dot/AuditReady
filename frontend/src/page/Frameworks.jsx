@@ -77,7 +77,7 @@ const Frameworks = () => {
                         {framework.name}
                       </td>
                       <td className="py-3 px-4 text-sm text-gray-700">
-                        {framework.controls}
+                        {framework.controlsCount}
                       </td>
                       <td className="py-3 px-4 text-sm text-blue-500 hover:underline cursor-pointer">
                         <Link to={`/frameworks/${framework._id}`}>Detail</Link>

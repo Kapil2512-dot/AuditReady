@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const clientRoute = require('./routes/clientRoute')
 const userRoute = require('./routes/userRoute')
 const frameRoute = require('./routes/frameRoute')
+const controlsRoutes = require("./routes/controlsRoute");
 const programRoute = require('./routes/programRoute')
 dotenv.config();
 const cors = require("cors");
@@ -24,6 +25,8 @@ mongoose
     console.log("Error connecting to MongoDB:", error);
   });
 
+
+app.use("/api/controls", controlsRoutes);
 app.use("/api/clients", clientRoute);
 app.use("/api/login", userRoute);
 app.use("/api/frameworks",frameRoute);

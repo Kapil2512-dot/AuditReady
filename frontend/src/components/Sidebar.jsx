@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FaHome,
+  FaToolbox ,
   FaUser,
   FaProjectDiagram,
   FaSignOutAlt,
@@ -138,6 +139,8 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
               icon: <FaProjectDiagram />,
             },
             { path: "/frameworks", label: "Frameworks", icon: <FaBook /> },
+            { path: "/controls", label: "Controls", icon: <FaToolbox /> },
+
             { path: "/evidence", label: "Evidence", icon: <FaClipboardList /> },
           ].map((item) => (
             <li

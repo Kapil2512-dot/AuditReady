@@ -128,9 +128,7 @@ const Navbar = ({ toggleSidebar }) => {
               >
                 Settings
               </div>
-              <div className="p-3 hover:bg-red-100 text-red-700 cursor-pointer" onClick={handleLogout}>
-                Logout
-              </div>
+              
 
               {/* Profile View */}
               {showProfile && (
