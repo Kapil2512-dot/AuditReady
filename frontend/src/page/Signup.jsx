@@ -1,31 +1,28 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { registerUser } from "./api"; // Import the API utility
+import { useNavigate, Link } from "react-router-dom";
+import { registerUser } from "./api"; // Adjust the import path to your API component
 
-const SignUp = () => {
+const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [retypePassword, setRetypePassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate passwords match
-    if (password !== retypePassword) {
-      setError("Passwords do not match!");
-      return;
-    }
-
     try {
-      // Call the register API
-      await registerUser(name, email, password);
-      // Redirect to login page after successful registration
-      navigate("/login");
+      // Call the registerUser function from your API component
+      const data = await registerUser(name, email, password);
+
+      // Store the JWT in localStorage (if needed)
+      localStorage.setItem("token", data.token);
+
+      // Redirect to the login page after successful signup
+      navigate("/login"); // Changed from "/" to "/login"
     } catch (error) {
-      setError(error);
+      setError(error.message);
     }
   };
 
@@ -71,7 +68,7 @@ const SignUp = () => {
               required
             />
           </div>
-          <div className="mb-6">
+          <div className="mb-8">
             <label
               htmlFor="password"
               className="block text-sm font-medium text-gray-700 mb-2"
@@ -88,23 +85,6 @@ const SignUp = () => {
               required
             />
           </div>
-          <div className="mb-8">
-            <label
-              htmlFor="retypePassword"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Retype Password
-            </label>
-            <input
-              type="password"
-              id="retypePassword"
-              className="w-full px-4 py-3 rounded-lg bg-white bg-opacity-50 backdrop-blur-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-600"
-              placeholder="Retype your password"
-              value={retypePassword}
-              onChange={(e) => setRetypePassword(e.target.value)}
-              required
-            />
-          </div>
           <button
             type="submit"
             className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg"
@@ -118,7 +98,7 @@ const SignUp = () => {
                 to="/login"
                 className="text-blue-600 hover:text-blue-800 font-semibold"
               >
-                Login here
+                Log in here
               </Link>
             </p>
           </div>
@@ -128,4 +108,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Signup;

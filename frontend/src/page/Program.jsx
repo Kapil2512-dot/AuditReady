@@ -54,7 +54,9 @@ const Program = () => {
   useEffect(() => {
     const fetchFrameworksAndClients = async () => {
       try {
-        const frameworkRes = await fetch("http://localhost:8000/api/frameworks");
+        const frameworkRes = await fetch(
+          "http://localhost:8000/api/frameworks"
+        );
         const clientRes = await fetch("http://localhost:8000/api/clients");
 
         if (!frameworkRes.ok || !clientRes.ok)
@@ -205,7 +207,9 @@ const Program = () => {
                       text={`${completionPercentage}%`}
                       styles={{
                         path: {
-                          stroke: `rgba(37, 99, 235, ${completionPercentage / 100})`,
+                          stroke: `rgba(37, 99, 235, ${
+                            completionPercentage / 100
+                          })`,
                         },
                         text: {
                           fill: "#1e3a8a",
@@ -222,7 +226,7 @@ const Program = () => {
 
         {/* Create Program Modal */}
         {showCreateModal && (
-          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center backdrop-blur-sm">
+          <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex justify-center items-center backdrop-blur-sm">
             <div className="bg-white p-6 rounded-xl shadow-lg w-96">
               <h2 className="text-2xl font-bold text-gray-700 mb-4">
                 Create a New Program
@@ -289,7 +293,7 @@ const Program = () => {
 
         {/* Description Modal */}
         {showDescriptionModal && selectedProgram && (
-          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center backdrop-blur-sm">
+          <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex justify-center items-center backdrop-blur-sm">
             <div className="bg-white p-6 rounded-xl shadow-lg w-96">
               <h2 className="text-2xl font-bold text-gray-700 mb-4">
                 {selectedProgram.name}

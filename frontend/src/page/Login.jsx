@@ -1,26 +1,29 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "./api"; // Import the API utility
+import { useNavigate, Link } from "react-router-dom";
+import { loginUser } from "./api"; // Adjust the import path to your API component
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [showModal, setShowModal] = useState(false); // State to control modal visibility
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      // Call the login API
-      const response = await loginUser(email, password);
-      // Store user data in localStorage
-      localStorage.setItem("user", JSON.stringify(response.user));
-      // Redirect to the home page or dashboard after successful login
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await loginUser(email, password);
+    if (response.token) {
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("email", email); // Store the user's email
       navigate("/");
-    } catch (error) {
-      setError(error);
     }
+  } catch (error) {
+    console.error("Login error:", error);
+  }
+};
+
+  const closeModal = () => {
+    setShowModal(false); // Close the modal
   };
 
   return (
@@ -29,7 +32,6 @@ const Login = () => {
         <h2 className="text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 mb-6">
           AuditReady
         </h2>
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-6">
             <label
@@ -83,6 +85,42 @@ const Login = () => {
             </p>
           </div>
         </form>
+
+        {/* Notification-style Modal */}
+        {showModal && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out scale-95 hover:scale-100">
+              <div className="flex items-center justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-12 w-12 text-red-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <h3 className="mt-4 text-xl font-semibold text-gray-800 text-center">
+                Invalid Credentials
+              </h3>
+              <p className="mt-2 text-gray-600 text-center">
+                Please check your email and password and try again.
+              </p>
+              <button
+                onClick={closeModal}
+                className="mt-6 w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300"
+              >
+                Try Again
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

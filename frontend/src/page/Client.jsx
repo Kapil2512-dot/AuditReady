@@ -10,12 +10,12 @@ const Client = () => {
   const [formData, setFormData] = useState({ name: "", email: "", _id: "" });
   const [isEditMode, setIsEditMode] = useState(false);
 
+  // Fetch Data from Backend
   useEffect(() => {
     getData();
   }, []);
 
-  // Fetch Data from Backend
-  async function getData() {
+  const getData = async () => {
     try {
       const response = await fetch("http://localhost:8000/api/clients");
       const result = await response.json();
@@ -23,12 +23,12 @@ const Client = () => {
       if (!response.ok) {
         setError(result.error || "An error occurred.");
       } else {
-        setData(result);
+        setData(result); // Update the data state
       }
     } catch (err) {
       setError("Failed to fetch data. Please try again later.");
     }
-  }
+  };
 
   // Handle Form Changes
   const handleChange = (e) => {
@@ -36,7 +36,7 @@ const Client = () => {
   };
 
   // Handle Create & Update Client
-  async function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       let response;
@@ -50,7 +50,6 @@ const Client = () => {
           }
         );
       } else {
-        // Fix the typo here: "clients" instead of "clients"
         response = await fetch("http://localhost:8000/api/clients", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -75,11 +74,11 @@ const Client = () => {
       setFormData({ name: "", email: "", _id: "" });
       setShowModal(false);
       setIsEditMode(false);
-      getData();
+      getData(); // Refetch data to refresh the component
     } catch (err) {
       setError("Failed to add/update client.");
     }
-  }
+  };
 
   // Handle Delete Client
   const handleDelete = async (id) => {
@@ -97,7 +96,7 @@ const Client = () => {
 
       setSuccess("Client deleted successfully!");
       setTimeout(() => setSuccess(""), 2000);
-      getData();
+      getData(); // Refetch data to refresh the component
     } catch (err) {
       setError("An error occurred while deleting. Please try again later.");
     }
